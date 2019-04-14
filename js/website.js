@@ -8,6 +8,7 @@ class Website {
         this._geocoder = null;
 
         // Import Google Maps API
+        let self = this;
         $.getScript("https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyByLobYLYqhklGiVYWVuRPbdzhYYkPYO9w&libraries=geometry", function () {
             // If loaded successfully setup Google Map
             self.setupMap();
@@ -60,6 +61,7 @@ class Website {
             ]
         });
 
+
         // Define Geocoder
         this._geocoder = new google.maps.Geocoder()
 
@@ -80,6 +82,8 @@ class Website {
                 lng: -91.667814
             }
         });
+        nite.init(this._map);
+        setInterval(nite.refresh, 1000);
 
         // Get Current ISS Information
         this.getISSPosition(this);
