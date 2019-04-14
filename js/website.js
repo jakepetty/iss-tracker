@@ -6,15 +6,22 @@ class Website {
         this._issMarker = null;
         this._homeMarker = null;
         this._geocoder = null;
-
         // Import Google Maps API
         let self = this;
         $.getScript("https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyByLobYLYqhklGiVYWVuRPbdzhYYkPYO9w&libraries=geometry", function () {
-            // If loaded successfully setup Google Map
-            self.setupMap();
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    // If loaded successfully setup Google Map
+                    self.setupMap(position.coords.latitude, position.coords.longitude);
+                }, function () {
+                    alert('Your location is required to use this app')
+                });
+            } else {
+                alert('Your browser doesnt support GeoLocation')
+            }
         });
     }
-    setupMap() {
+    setupMap(lat, lon) {
         // Define Map Object
         this._map = new google.maps.Map(document.getElementById('map'), {
             zoom: 3,
@@ -78,8 +85,8 @@ class Website {
             optimized: false,
             icon: new google.maps.MarkerImage('img/home_marker.png', new google.maps.Size(52, 52), new google.maps.Point(0, 0), new google.maps.Point(52 / 2, 52 / 2)),
             position: {
-                lat: 41.978119,
-                lng: -91.667814
+                lat: lat,
+                lng: lon
             }
         });
         nite.init(this._map);
