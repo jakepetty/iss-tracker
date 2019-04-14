@@ -6,3 +6,6 @@ body {
 body {
   margin: 0;
 }
+#map {
+  height: 100%;
+}
