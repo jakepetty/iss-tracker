@@ -1,16 +1,20 @@
 'use strict'
 class Website {
     constructor() {
-        let self = this;
+        // Define default values for varialbes
         this._map = null;
         this._issMarker = null;
         this._homeMarker = null;
         this._geocoder = null;
-        $.getScript("https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyByLobYLYqhklGiVYWVuRPbdzhYYkPYO9w&libraries=geometry", function (a) {
+
+        // Import Google Maps API
+        $.getScript("https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyByLobYLYqhklGiVYWVuRPbdzhYYkPYO9w&libraries=geometry", function () {
+            // If loaded successfully setup Google Map
             self.setupMap();
         });
     }
     setupMap() {
+        // Define Map Object
         this._map = new google.maps.Map(document.getElementById('map'), {
             zoom: 3,
             disableDefaultUI: true,
@@ -56,13 +60,17 @@ class Website {
             ]
         });
 
+        // Define Geocoder
         this._geocoder = new google.maps.Geocoder()
+
+        // Define ISS Marker
         this._issMarker = new google.maps.Marker({
             map: this._map,
             optimized: false,
             icon: new google.maps.MarkerImage('img/iss_marker.png', new google.maps.Size(250, 250), new google.maps.Point(0, 0), new google.maps.Point(250 / 2, 250 / 2))
         });
 
+        // Define Home Marker
         this._homeMarker = new google.maps.Marker({
             map: this._map,
             optimized: false,
@@ -72,18 +80,25 @@ class Website {
                 lng: -91.667814
             }
         });
-        this.setupISS(this);
+
+        // Get Current ISS Information
+        this.getISSPosition(this);
     }
-    setupISS(self) {
+    getISSPosition(self) {
+        // Make xhr request to wheretheiss.at
         $.getJSON('https://api.wheretheiss.at/v1/satellites/25544?units=miles', function (payload) {
             let latlng = { lat: payload.latitude, lng: payload.longitude };
+
+            // Update ISS Marker location
             self._issMarker.setPosition(latlng);
 
+            // Set zoom level to fit ISS Marker and Home Marker
             let bounds = new google.maps.LatLngBounds();
             bounds.extend(self._issMarker.getPosition());
             bounds.extend(self._homeMarker.getPosition());
             self._map.fitBounds(bounds);
 
+            // Get State and Country name for info bar display
             self._geocoder.geocode({ location: latlng }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     let addrComponents = results[0].address_components;
@@ -101,12 +116,16 @@ class Website {
                     $('#iss-location').text("Over an Ocean");
                 }
             });
-            var distance = google.maps.geometry.spherical.computeDistanceBetween(self._homeMarker.getPosition(), self._issMarker.getPosition()) * 0.000621371;
+
+            // Calculate distance to Home Marker
+            let distance = google.maps.geometry.spherical.computeDistanceBetween(self._homeMarker.getPosition(), self._issMarker.getPosition()) * 0.000621371;
             $("#iss-distance").text(Number(distance.toFixed()).toLocaleString("en-US")).append("<span class='units'>miles</span>")
             $('#iss-velocity').text(Number(payload.velocity.toFixed()).toLocaleString("en-US")).append("<span class='units'>mph</span>")
             $('#iss-altitude').text(Number(payload.altitude.toFixed()).toLocaleString("en-US")).append("<span class='units'>miles</span>")
+
+            // Update map every 2000ms
             setTimeout(function () {
-                self.setupISS(self)
+                self.getISSPosition(self)
             }, 5000);
         })
     }
