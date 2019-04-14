@@ -4,7 +4,35 @@ body {
   height: 100%;
 }
 body {
+  font: 12px arial;
   margin: 0;
+}
+#stats {
+  left: 0;
+  right: 0;
+  top: 0;
+  margin-left: auto;
+  margin-right: auto;
+
+  position: absolute;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+#stats div {
+  display: inline-block;
+  margin: 0 20px;
+}
+.info {
+  min-width: 150px;
+}
+#stats .info span {
+  background: #06f;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+#stats div:last-child {
+  float: right;
 }
 #map {
   height: 100%;
@@ -12,6 +40,9 @@ body {
 }
 #map img[src="img/iss_marker.png"] {
   animation: pulsate 2s linear infinite;
+}
+#map img[src="img/home_marker.png"] {
+  animation: spin 10s linear infinite;
 }
 @keyframes pulsate {
   0% {
