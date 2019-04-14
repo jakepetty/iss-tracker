@@ -6,7 +6,7 @@ class Website {
         this._issMarker = null;
         this._homeMarker = null;
         this._geocoder = null;
-        
+
         // Import Google Maps API
         let self = this;
         $.getScript("https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyByLobYLYqhklGiVYWVuRPbdzhYYkPYO9w&libraries=geometry", function () {
@@ -116,13 +116,10 @@ class Website {
             self._geocoder.geocode({ location: latlng }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     let addrComponents = results[0].address_components;
-                    let location;
+                    let location = "";
                     for (let i = 0; i < addrComponents.length; i++) {
-                        if (addrComponents[i].types[1] == "political") {
-                            location = addrComponents[i].long_name + ', ';
-                        }
                         if (addrComponents[i].types[0] == "country") {
-                            location += addrComponents[i].long_name;
+                            location = addrComponents[i].long_name;
                         }
                     }
                     $('#iss-location').text(location);
