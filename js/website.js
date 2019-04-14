@@ -6,6 +6,7 @@ class Website {
         this._issMarker = null;
         this._homeMarker = null;
         this._geocoder = null;
+        
         // Import Google Maps API
         let self = this;
         $.getScript("https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyByLobYLYqhklGiVYWVuRPbdzhYYkPYO9w&libraries=geometry", function () {
@@ -89,6 +90,8 @@ class Website {
                 lng: lon
             }
         });
+
+        // Add night overlay
         nite.init(this._map);
         setInterval(nite.refresh, 1000);
 
