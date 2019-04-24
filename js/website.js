@@ -111,6 +111,7 @@ class Website {
             bounds.extend(self._issMarker.getPosition());
             bounds.extend(self._homeMarker.getPosition());
             self._map.fitBounds(bounds, 15);
+            self._map.setZoom(self._map.getZoom() - 1);
 
             // Get State and Country name for info bar display
             self._geocoder.geocode({ location: latlng }, function (results, status) {
