@@ -42,8 +42,8 @@ body {
 #stats .info .wrapper > span {
   background: #06f;
   display: block;
-  padding: 5px;
-  margin-top: 5px;
+  padding: 15px;
+  margin-top: 15px;
   border-radius: 3px;
 }
 .wrapper {
