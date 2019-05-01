@@ -27,6 +27,7 @@ class Website {
         this._map = new google.maps.Map(document.getElementById('map'), {
             zoom: 3,
             disableDefaultUI: true,
+            backgroundColor: 'none',
             mapTypeId: google.maps.MapTypeId.TERRAIN,
             styles: [
                 {
