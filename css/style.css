@@ -8,32 +8,59 @@ body {
   margin: 0;
 }
 #stats {
+  box-shadow: 0 0 50px #000;
   left: 0;
   right: 0;
-  top: 0;
-  margin-left: auto;
-  margin-right: auto;
-
+  bottom: 0;
+  text-align: center;
+  font-size: 18px;
   position: absolute;
-  padding: 20px;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
 }
-#stats div {
+.location-info {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  left: 0;
+  text-align: center;
+  color: #fff;
+  z-index: 1000;
+}
+.location-info .wrapper {
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 18px;
+  border-radius: 100px;
   display: inline-block;
-  margin: 0 20px;
 }
-.info {
-  min-width: 150px;
-}
-#stats .info span {
-  background: #06f;
-  padding: 2px 5px;
+#stats .info {
+  float: left;
+  width: 25%;
+  display: block;
   border-radius: 3px;
 }
-#stats div:last-child {
-  float: right;
+#stats .info .wrapper > span {
+  background: #06f;
+  display: block;
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 3px;
 }
+.wrapper {
+  padding: 20px;
+}
+@media (max-width: 720px) {
+  #stats .info {
+    float: left;
+    width: 50%;
+    display: block;
+    border-radius: 3px;
+  }
+}
+.gm-style-cc {
+  opacity: 0.1;
+}
+
 #map {
   height: 100%;
   background: #20242d;

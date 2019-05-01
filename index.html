@@ -8,26 +8,41 @@
     <title>ISS Tracker</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
+    <div class="location-info">
+        <div class="wrapper">
+            <span id="iss-location">loading...</span>
+        </div>
+
+    </div>
     <div id="map"></div>
     <div id="stats">
         <div class="info">
-            Velocity:
-            <span id="iss-velocity">loading...</span>
+            <div class="wrapper">
+                Velocity
+                <span id="iss-velocity">loading...</span>
+            </div>
         </div>
         <div class="info">
-            Altitude:
-            <span id="iss-altitude">loading...</span>
+            <div class="wrapper">
+                Altitude
+                <span id="iss-altitude">loading...</span>
+            </div>
         </div>
         <div class="info">
-            Distance:
-            <span id="iss-distance">loading...</san>
+            <div class="wrapper">
+                Distance
+                <span id="iss-distance">loading...</san>
+            </div>
         </div>
         <div class="info">
-            Location:
-            <span id="iss-location">loading...</span>
+            <div class="wrapper">
+                Visible
+                <span id="iss-visibility">loading...</san>
+            </div>
         </div>
     </div>
     <script src="js/jquery.min.js"></script>
