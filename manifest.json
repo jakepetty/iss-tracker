@@ -1,0 +1,8 @@
+{
+    "name": "International Space Station Tracker",
+    "short_name": "I.S.S. Tracker",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#000",
+    "description": "Track the ISS in real time"
+}
