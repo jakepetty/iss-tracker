@@ -2,25 +2,25 @@
 class Website {
     constructor() {
         // Define default values for varialbes
-        this._map = null;
-        this._issMarker = null;
-        this._homeMarker = null;
-        this._geocoder = null;
+        this._map = null
+        this._issMarker = null
+        this._homeMarker = null
+        this._geocoder = null
 
         // Import Google Maps API
-        let self = this;
-        $.getScript("https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyByLobYLYqhklGiVYWVuRPbdzhYYkPYO9w&libraries=geometry", function () {
+        let self = this
+        $.getScript("https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyByLobYLYqhklGiVYWVuRPbdzhYYkPYO9w&libraries=geometry", () => {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
+                navigator.geolocation.getCurrentPosition((position) => {
                     // If loaded successfully setup Google Map
-                    self.setupMap(position.coords.latitude, position.coords.longitude);
-                }, function () {
+                    self.setupMap(position.coords.latitude, position.coords.longitude)
+                }, () => {
                     alert('Your location is required to use this app')
-                });
+                })
             } else {
                 alert('Your browser doesnt support GeoLocation')
             }
-        });
+        })
     }
     setupMap(lat, lon) {
         // Define Map Object
@@ -67,7 +67,7 @@ class Website {
                     "stylers": [{ "visibility": "on" }, { "color": "#363b4a" }, { "lightness": "-30" }]
                 }
             ]
-        });
+        })
 
 
         // Define Geocoder
@@ -78,7 +78,7 @@ class Website {
             map: this._map,
             optimized: false,
             icon: new google.maps.MarkerImage('img/iss_marker.png', new google.maps.Size(250, 250), new google.maps.Point(0, 0), new google.maps.Point(250 / 2, 250 / 2))
-        });
+        })
 
         // Define Home Marker
         this._homeMarker = new google.maps.Marker({
@@ -89,57 +89,57 @@ class Website {
                 lat: lat,
                 lng: lon
             }
-        });
+        })
 
         // Add night overlay
-        nite.init(this._map);
-        setInterval(nite.refresh, 1000);
+        nite.init(this._map)
+        setInterval(nite.refresh, 1000)
 
         // Get Current ISS Information
-        this.getISSPosition(this);
+        this.getISSPosition(this)
     }
     getISSPosition(self) {
         // Make xhr request to wheretheiss.at
-        $.getJSON('https://api.wheretheiss.at/v1/satellites/25544?units=miles', function (payload) {
-            let latlng = { lat: payload.latitude, lng: payload.longitude };
+        $.getJSON('https://api.wheretheiss.at/v1/satellites/25544?units=miles', (payload) => {
+            let latlng = { lat: payload.latitude, lng: payload.longitude }
 
             // Update ISS Marker location
-            self._issMarker.setPosition(latlng);
+            self._issMarker.setPosition(latlng)
 
             // Set zoom level to fit ISS Marker and Home Marker
-            let bounds = new google.maps.LatLngBounds();
-            bounds.extend(self._issMarker.getPosition());
-            bounds.extend(self._homeMarker.getPosition());
-            self._map.fitBounds(bounds, 15);
-            self._map.setZoom(self._map.getZoom() - 1);
+            let bounds = new google.maps.LatLngBounds()
+            bounds.extend(self._issMarker.getPosition())
+            bounds.extend(self._homeMarker.getPosition())
+            self._map.fitBounds(bounds, 15)
 
             // Get State and Country name for info bar display
-            self._geocoder.geocode({ location: latlng }, function (results, status) {
+            self._geocoder.geocode({ location: latlng }, (results, status) => {
                 if (status == google.maps.GeocoderStatus.OK) {
-                    let addrComponents = results[0].address_components;
-                    let location = "";
+                    let addrComponents = results[0].address_components
+                    let location = ""
                     for (let i = 0; i < addrComponents.length; i++) {
                         if (addrComponents[i].types[0] == "country") {
-                            location = addrComponents[i].long_name;
+                            location = addrComponents[i].long_name
                         }
                     }
-                    $('#iss-location').text(location);
+                    $('#iss-location').text(location)
                 } else {
-                    $('#iss-location').text("Over an Ocean");
+                    $('#iss-location').text("Over an Ocean")
                 }
-            });
+            })
 
             // Calculate distance to Home Marker
-            let distance = google.maps.geometry.spherical.computeDistanceBetween(self._homeMarker.getPosition(), self._issMarker.getPosition()) * 0.000621371;
-            $("#iss-distance").text(Number(distance.toFixed()).toLocaleString("en-US")).append("<span class='units'>miles</span>")
-            $('#iss-velocity').text(Number(payload.velocity.toFixed()).toLocaleString("en-US")).append("<span class='units'>mph</span>")
-            $('#iss-altitude').text(Number(payload.altitude.toFixed()).toLocaleString("en-US")).append("<span class='units'>miles</span>")
+            let distance = google.maps.geometry.spherical.computeDistanceBetween(self._homeMarker.getPosition(), self._issMarker.getPosition()) * 0.000621371
+            $("#iss-distance").text(Number(distance.toFixed()).toLocaleString("en-US")).append(" <span class='units'>miles</span>")
+            $('#iss-velocity').text(Number(payload.velocity.toFixed()).toLocaleString("en-US")).append(" <span class='units'>mph</span>")
+            $('#iss-visibility').text(payload.visibility == "daylight" ? "Yes" : "No")
+            $('#iss-altitude').text(Number(payload.altitude.toFixed()).toLocaleString("en-US")).append(" <span class='units'>miles</span>")
 
             // Update map every 2000ms
-            setTimeout(function () {
+            setTimeout(() => {
                 self.getISSPosition(self)
-            }, 5000);
+            }, 5000)
         })
     }
 }
-new Website();
+new Website()
