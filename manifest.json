@@ -1,8 +1,23 @@
 {
     "name": "International Space Station Tracker",
     "short_name": "I.S.S. Tracker",
-    "start_url": ".",
     "display": "standalone",
-    "background_color": "#000",
-    "description": "Track the ISS in real time"
+    "start_url": "/",
+    "theme_color": "#363b4a",
+    "background_color": "#363b4a",
+    "orientation": "portrait",
+    "prefer_related_applications": false,
+    "description": "Track the International Space Station in real-time",
+    "icons": [
+        {
+            "src": "/favicon.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/favicon.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
 }

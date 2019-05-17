@@ -1,6 +1,8 @@
 'use strict'
 class Website {
     constructor() {
+        this.setupServiceWorker();
+
         // Define default values for varialbes
         this._map = null
         this._issMarker = null
@@ -21,6 +23,11 @@ class Website {
                 alert('Your browser doesnt support GeoLocation')
             }
         })
+    }
+    setupServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+        }
     }
     setupMap(lat, lon) {
         // Define Map Object
