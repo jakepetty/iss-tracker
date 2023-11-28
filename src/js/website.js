@@ -30,6 +30,7 @@ class Website {
                         // If loaded successfully setup Google Map
                         const coords = position.coords;
                         self.setupMap(coords.latitude, coords.longitude);
+                    },
                     (e) => {
                         alert("Your location is required to use this app");
                     },
